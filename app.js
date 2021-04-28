@@ -5,6 +5,7 @@ let firstCard,secondCard;
 
 function filpCard(){
     if(lockBoard) return;
+    if(this === firstCard) return;
     console.log("clicked",this.classList);
     this.classList.add('flip')
     
@@ -39,13 +40,26 @@ function checkForMatch(){
 function disableCards(){
     firstCard.removeEventListener('click',filpCard)
     secondCard.removeEventListener('click',filpCard)
+    resetBoard()
 }
 function upflipCards(){
     lockBoard = true;
     setTimeout(()=>{
         firstCard.classList.remove('flip');
         secondCard.classList.remove('flip');
-        lockBoard= false;
+        resetBoard()
        }, 1500)
 }
+
+function resetBoard(){
+    [hasFippedCard,lockBoard] = [false,false];
+    [firstCard,secondCard] = [null,null]
+}
+
+(function shuffle(){
+    cards.forEach(card => {
+        let randomPos =Math.floor((Math.random() * 12));
+        card.style.order = randomPos;
+    })
+})();
 cards.forEach(card=> card.addEventListener('click', filpCard))
